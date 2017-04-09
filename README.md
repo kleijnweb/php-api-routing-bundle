@@ -7,9 +7,9 @@
 
 ## <a name="config"></a> Install And Configure
 
-Install using composer (`composer require kleijnweb/swagger-bundle`). You want to check out the [release page](https://github.com/kleijnweb/swagger-bundle/releases) to ensure you are getting what you want and optionally verify your download.
+Install using composer (`composer require kleijnweb/php-api-routing-bundle`).
 
-Add Swagger-based routing to your app, for example:
+Add OpenApi (or RAML) routing to your app, for example:
  
 ```yml
 test:
