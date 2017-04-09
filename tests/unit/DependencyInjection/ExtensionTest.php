@@ -30,8 +30,8 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
         $this->extension->load([], $container);
-        $this->assertTrue($container->hasDefinition('swagger.route_loader'));
-        $routeLoader = $container->getDefinition('swagger.route_loader');
+        $this->assertTrue($container->hasDefinition('openapi.route_loader'));
+        $routeLoader = $container->getDefinition('openapi.route_loader');
         $this->assertSame([[]], $routeLoader->getTag('routing.loader'));
     }
 
