@@ -1,0 +1,18 @@
+language: php
+sudo: false
+before_install:
+  - composer self-update
+install:
+  - composer update $COMPOSER_FLAGS
+matrix:
+  include:
+    - php: 7.0
+      env: COMPOSER_FLAGS="--prefer-lowest"
+    - php: 7.0
+      script: bin/phpunit --coverage-clover build/logs/clover.xml
+      before_script:
+        - mkdir -p build/logs
+      after_script:
+        - travis_retry php bin/coveralls -v
+    - php: 7.1
+  fast_finish: true
