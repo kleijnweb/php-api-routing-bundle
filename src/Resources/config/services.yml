@@ -1,7 +1,7 @@
 services:
   swagger.route_loader:
     class: KleijnWeb\PhpApi\RoutingBundle\Routing\OpenApiRouteLoader
-    arguments: ['@swagger.description.repository']
+    arguments: ['@swagger.description.repository', '%phpapi.router_name%']
     tags:
        - { name: routing.loader }
     public: false

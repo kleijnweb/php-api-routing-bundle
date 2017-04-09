@@ -5,6 +5,24 @@
 [![Latest Unstable Version](https://poser.pugx.org/kleijnweb/php-api-routing-bundle/v/unstable)](https://packagist.org/packages/kleijnweb/php-api-routing-bundle)
 [![Latest Stable Version](https://poser.pugx.org/kleijnweb/php-api-routing-bundle/v/stable)](https://packagist.org/packages/kleijnweb/php-api-routing-bundle)
 
+## <a name="config"></a> Install And Configure
+
+Install using composer (`composer require kleijnweb/swagger-bundle`). You want to check out the [release page](https://github.com/kleijnweb/swagger-bundle/releases) to ensure you are getting what you want and optionally verify your download.
+
+Add Swagger-based routing to your app, for example:
+ 
+```yml
+test:
+  resource: "path/to/spec.yml"
+  type: php-api
+```
+
+The `type` as well as the `php-api` prefix mentioned below is configurable:
+
+```yml
+api_routing:
+  name: customname
+```
 ## Routing
 
 To view the routes added by PhpApi\RoutingBundle, you can use Symfony's `debug:router`. Route keys include the API spec base filename to prevent collisions. For path parameters,

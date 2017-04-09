@@ -61,7 +61,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->willReturn($this->decriptionMock);
 
-        $this->loader = new OpenApiRouteLoader($repository);
+        $this->loader = new OpenApiRouteLoader($repository, 'customname');
     }
 
     /**
@@ -70,7 +70,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
     public function supportSwaggerAsRouteTypeOnly()
     {
         $this->assertFalse($this->loader->supports('/a/b/c'));
-        $this->assertTrue($this->loader->supports('/a/b/c', 'php-api'));
+        $this->assertTrue($this->loader->supports('/a/b/c', 'customname'));
     }
 
     /**
@@ -226,7 +226,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $actual = $routes->get('php-api.path.a.methodName');
+        $actual = $routes->get('customname.path.a.methodName');
         $this->assertNotNull($actual);
         $this->assertSame($expected, $actual->getDefault('_controller'));
     }
@@ -254,7 +254,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $actual = $routes->get('php-api.path.a.myMethodName');
+        $actual = $routes->get('customname.path.a.myMethodName');
         $this->assertNotNull($actual);
     }
 
@@ -282,7 +282,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $actual = $routes->get('php-api.path.a.post');
+        $actual = $routes->get('customname.path.a.post');
         $this->assertNotNull($actual);
         $this->assertSame($expected, $actual->getDefault('_controller'));
     }
@@ -310,7 +310,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $actual = $routes->get('php-api.path.a.post');
+        $actual = $routes->get('customname.path.a.post');
         $this->assertNotNull($actual);
         $this->assertSame($expected, $actual->getDefault('_controller'));
     }
@@ -338,7 +338,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $actual = $routes->get('php-api.path.a.post');
+        $actual = $routes->get('customname.path.a.post');
         $this->assertNotNull($actual);
         $this->assertSame($expected, $actual->getDefault('_controller'));
     }
@@ -427,7 +427,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             ->willReturn([new Path('/a', [new Operation('/a:get', '/a', 'get', [$parameter])])]);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
-        $actual = $routes->get('php-api.path.a.get');
+        $actual = $routes->get('customname.path.a.get');
         $this->assertNotNull($actual);
         $requirements = $actual->getRequirements();
         $this->assertNotNull($requirements);
@@ -459,7 +459,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             ->willReturn([new Path('/a', [new Operation('/a:get', '/a', 'get', [$parameter])])]);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
-        $actual = $routes->get('php-api.path.a.get');
+        $actual = $routes->get('customname.path.a.get');
         $this->assertNotNull($actual);
         $requirements = $actual->getRequirements();
         $this->assertNotNull($requirements);
@@ -492,7 +492,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             ->willReturn([new Path('/a', [new Operation('/a:get', '/a', 'get', [$parameter])])]);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
-        $actual = $routes->get('php-api.path.a.get');
+        $actual = $routes->get('customname.path.a.get');
         $this->assertNotNull($actual);
         $requirements = $actual->getRequirements();
         $this->assertNotNull($requirements);

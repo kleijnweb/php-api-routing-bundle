@@ -25,6 +25,9 @@ class PhpApiRoutingExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        $container->setParameter('phpapi.router_name', $config['name']);
     }
 
     /**

@@ -38,12 +38,19 @@ class OpenApiRouteLoader extends Loader
     private $typePatternResolver;
 
     /**
-     * @param Repository $repository
+     * @var string
      */
-    public function __construct(Repository $repository)
+    private $typeName;
+
+    /**
+     * @param Repository $repository
+     * @param string     $typeName
+     */
+    public function __construct(Repository $repository, string $typeName)
     {
         $this->repository          = $repository;
         $this->typePatternResolver = new ParameterTypePatternResolver();
+        $this->typeName            = $typeName;
     }
 
     /**
@@ -56,7 +63,7 @@ class OpenApiRouteLoader extends Loader
      */
     public function supports($resource, $type = null)
     {
-        return 'php-api' === $type;
+        return $this->typeName === $type;
     }
 
     /**
@@ -77,7 +84,7 @@ class OpenApiRouteLoader extends Loader
         $description = $this->repository->get($resource);
 
         $routes           = new RouteCollection();
-        $router           = $description->getExtension('router') ?: 'php-api.controller';
+        $router           = $description->getExtension('router') ?: "$this->typeName.controller";
         $routerController = $description->getExtension('router-controller');
 
         foreach ($description->getPaths() as $pathItem) {
@@ -191,7 +198,7 @@ class OpenApiRouteLoader extends Loader
         list(, $operationName) = explode(':', $controllerKey);
         $fileName       = pathinfo($resource, PATHINFO_FILENAME);
         $normalizedPath = strtolower(trim(preg_replace('/\W+/', '.', $path), '.'));
-        $routeName      = "php-api.{$fileName}.$normalizedPath.$operationName";
+        $routeName      = "$this->typeName.{$fileName}.$normalizedPath.$operationName";
 
         return $routeName;
     }
