@@ -1,4 +1,6 @@
 # KleijnWeb\PhpApi\RoutingBundle 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/1da0d81a-78c5-4be7-8228-72963c0f6d24/small.png)](https://insight.sensiolabs.com/projects/1da0d81a-78c5-4be7-8228-72963c0f6d24)
+
 [![Build Status](https://travis-ci.org/kleijnweb/php-api-routing-bundle.svg?branch=master)](https://travis-ci.org/kleijnweb/php-api-routing-bundle)
 [![Coverage Status](https://coveralls.io/repos/github/kleijnweb/php-api-routing-bundle/badge.svg?branch=master)](https://coveralls.io/github/kleijnweb/php-api-routing-bundle?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kleijnweb/php-api-routing-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kleijnweb/php-api-routing-bundle/?branch=master)
