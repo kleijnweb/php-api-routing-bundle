@@ -61,8 +61,8 @@ class RequestMetaTest extends \PHPUnit_Framework_TestCase
     public function canUseGetters()
     {
         $meta = $this->canCreateFromRequest();
-        $this->assertInstanceOf(Description::class, $meta->getDescription());
-        $this->assertInstanceOf(Operation::class, $meta->getOperation());
+        $this->assertTrue(is_subclass_of($meta->getDescription(), Description::class));
+        $this->assertTrue(is_subclass_of($meta->getOperation(), Operation::class));
     }
 
     /**
