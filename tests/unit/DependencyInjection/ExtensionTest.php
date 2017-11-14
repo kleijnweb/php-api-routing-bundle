@@ -9,9 +9,10 @@
 namespace KleijnWeb\PhpApi\RoutingBundle\Tests\DependencyInjection;
 
 use KleijnWeb\PhpApi\RoutingBundle\DependencyInjection\PhpApiRoutingExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ExtensionTest extends \PHPUnit_Framework_TestCase
+class ExtensionTest extends TestCase
 {
     /**
      * @var PhpApiRoutingExtension
@@ -23,23 +24,17 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension = new PhpApiRoutingExtension();
     }
 
-    /**
-     * @test
-     */
-    public function hasRouteLoaderTag()
+    public function testHasRouteLoaderTag()
     {
         $container = new ContainerBuilder();
         $this->extension->load([], $container);
-        $this->assertTrue($container->hasDefinition('openapi.route_loader'));
+        self::assertTrue($container->hasDefinition('openapi.route_loader'));
         $routeLoader = $container->getDefinition('openapi.route_loader');
-        $this->assertSame([[]], $routeLoader->getTag('routing.loader'));
+        self::assertSame([[]], $routeLoader->getTag('routing.loader'));
     }
 
-    /**
-     * @test
-     */
-    public function hasAlias()
+    public function testHasAlias()
     {
-        $this->assertSame('api_routing', $this->extension->getAlias());
+        self::assertSame('api_routing', $this->extension->getAlias());
     }
 }

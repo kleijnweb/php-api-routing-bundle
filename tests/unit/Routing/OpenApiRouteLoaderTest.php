@@ -16,12 +16,13 @@ use KleijnWeb\PhpApi\Descriptions\Description\Repository;
 use KleijnWeb\PhpApi\Descriptions\Description\Schema\ScalarSchema;
 use KleijnWeb\PhpApi\Descriptions\Description\Schema\Schema;
 use KleijnWeb\PhpApi\RoutingBundle\Routing\OpenApiRouteLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Route;
 
 /**
  * @author John Kleijn <john@kleijnweb.nl>
  */
-class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
+class OpenApiRouteLoaderTest extends TestCase
 {
     const DOCUMENT_PATH = '/totally/non-existent/path';
 
@@ -33,7 +34,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $decriptionMock;
+    private $descriptionMock;
 
     /**
      * @var OpenApiRouteLoader
@@ -45,7 +46,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->decriptionMock = $this
+        $this->descriptionMock = $this
             ->getMockBuilder(Description::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -57,29 +58,23 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->repositoryMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('get')
-            ->willReturn($this->decriptionMock);
+            ->willReturn($this->descriptionMock);
 
         $this->loader = new OpenApiRouteLoader($repository, 'customname');
     }
 
-    /**
-     * @test
-     */
-    public function supportSwaggerAsRouteTypeOnly()
+    public function testSupportSwaggerAsRouteTypeOnly()
     {
-        $this->assertFalse($this->loader->supports('/a/b/c'));
-        $this->assertTrue($this->loader->supports('/a/b/c', 'customname'));
+        self::assertFalse($this->loader->supports('/a/b/c'));
+        self::assertTrue($this->loader->supports('/a/b/c', 'customname'));
     }
 
-    /**
-     * @test
-     */
-    public function canLoadMultipleDocuments()
+    public function testCanLoadMultipleDocuments()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([]);
 
@@ -87,13 +82,10 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
         $this->loader->load(self::DOCUMENT_PATH.'2');
     }
 
-    /**
-     * @test
-     */
-    public function loadingMultipleDocumentsWillPreventRouteKeyCollisions()
+    public function testLoadingMultipleDocumentsWillPreventRouteKeyCollisions()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn(
                 [
@@ -103,45 +95,37 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes1 = $this->loader->load(self::DOCUMENT_PATH);
         $routes2 = $this->loader->load(self::DOCUMENT_PATH.'2');
-        $this->assertSame(count($routes1), count(array_diff_key($routes1->all(), $routes2->all())));
+        self::assertSame(count($routes1), count(array_diff_key($routes1->all(), $routes2->all())));
     }
 
-    /**
-     * @test
-     * @expectedException \RuntimeException
-     */
-    public function cannotLoadSameDocumentMoreThanOnce()
+    public function testCannotLoadSameDocumentMoreThanOnce()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([]);
 
+        self::expectException(\RuntimeException::class);
+
         $this->loader->load(self::DOCUMENT_PATH);
         $this->loader->load(self::DOCUMENT_PATH);
     }
 
-    /**
-     * @test
-     */
-    public function willReturnRouteCollection()
+    public function testWillReturnRouteCollection()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([]);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
-        $this->assertInstanceOf('Symfony\Component\Routing\RouteCollection', $routes);
+        self::assertInstanceOf('Symfony\Component\Routing\RouteCollection', $routes);
     }
 
-    /**
-     * @test
-     */
-    public function routeCollectionWillContainOneRouteForEveryPathAndMethod()
+    public function testRouteCollectionWillContainOneRouteForEveryPathAndMethod()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn(
                 [
@@ -152,16 +136,13 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $this->assertCount(3, $routes);
+        self::assertCount(3, $routes);
     }
 
-    /**
-     * @test
-     */
-    public function shouldCreateRoutesWithTheCorrectHttpSchemes()
+    public function testShouldCreateRoutesWithTheCorrectHttpSchemes()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([
                 new Path('/a', [
@@ -170,27 +151,24 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
                 ]),
             ]);
 
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getSchemes')
             ->willReturn(['https', 'http']);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $this->assertCount(2, $routes);
+        self::assertCount(2, $routes);
 
         foreach ($routes as $route) {
-            $this->assertEquals(['https', 'http'], $route->getSchemes());
+            self::assertEquals(['https', 'http'], $route->getSchemes());
         }
     }
 
-    /**
-     * @test
-     */
-    public function routeCollectionWillIncludeSeparateRoutesForSubPaths()
+    public function testRouteCollectionWillIncludeSeparateRoutesForSubPaths()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn(
                 [
@@ -203,18 +181,15 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $this->assertCount(3, $routes);
+        self::assertCount(3, $routes);
     }
 
-    /**
-     * @test
-     */
-    public function canUseOperationIdAsControllerKey()
+    public function testCanUseOperationIdAsControllerKey()
     {
         $expected = 'my.controller.key:methodName';
 
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([
                 new Path(
@@ -227,19 +202,16 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
         $actual = $routes->get('customname.path.a.methodName');
-        $this->assertNotNull($actual);
-        $this->assertSame($expected, $actual->getDefault('_controller'));
+        self::assertNotNull($actual);
+        self::assertSame($expected, $actual->getDefault('_controller'));
     }
 
-    /**
-     * @test
-     */
-    public function canUseXRouterMethodToOverrideMethod()
+    public function testCanUseXRouterMethodToOverrideMethod()
     {
         $extensions = ['router-controller-method' => 'myMethodName'];
 
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([
                 new Path(
@@ -255,19 +227,16 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
         $actual = $routes->get('customname.path.a.myMethodName');
-        $this->assertNotNull($actual);
+        self::assertNotNull($actual);
     }
 
-    /**
-     * @test
-     */
-    public function canUseXRouterControllerForDiKeyInOperation()
+    public function testCanUseXRouterControllerForDiKeyInOperation()
     {
         $diKey      = 'my.x_router.controller';
         $expected   = "$diKey:post";
         $extensions = ['router-controller' => $diKey];
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([
                 new Path(
@@ -283,24 +252,21 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
         $actual = $routes->get('customname.path.a.post');
-        $this->assertNotNull($actual);
-        $this->assertSame($expected, $actual->getDefault('_controller'));
+        self::assertNotNull($actual);
+        self::assertSame($expected, $actual->getDefault('_controller'));
     }
 
-    /**
-     * @test
-     */
-    public function canUseXRouterControllerForDiKeyInPath()
+    public function testCanUseXRouterControllerForDiKeyInPath()
     {
         $diKey    = 'my.x_router.controller';
         $expected = "$diKey:post";
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([new Path('/a', [new Operation('/a:post', '/a', 'post')])]);
 
-        $this->decriptionMock
-            ->expects($this->atLeast(1))
+        $this->descriptionMock
+            ->expects(self::atLeast(1))
             ->method('getExtension')
             ->willReturnCallback(
                 function (string $name) use ($diKey) {
@@ -311,24 +277,21 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
         $actual = $routes->get('customname.path.a.post');
-        $this->assertNotNull($actual);
-        $this->assertSame($expected, $actual->getDefault('_controller'));
+        self::assertNotNull($actual);
+        self::assertSame($expected, $actual->getDefault('_controller'));
     }
 
-    /**
-     * @test
-     */
-    public function canUseXRouterForDiKeyInPath()
+    public function testCanUseXRouterForDiKeyInPath()
     {
         $router   = 'my.x_router';
         $expected = "$router.a:post";
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([new Path('/a', [new Operation('/a:post', '/a', 'post')])]);
 
-        $this->decriptionMock
-            ->expects($this->atLeast(1))
+        $this->descriptionMock
+            ->expects(self::atLeast(1))
             ->method('getExtension')
             ->willReturnCallback(
                 function (string $name) use ($router) {
@@ -339,17 +302,14 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
         $actual = $routes->get('customname.path.a.post');
-        $this->assertNotNull($actual);
-        $this->assertSame($expected, $actual->getDefault('_controller'));
+        self::assertNotNull($actual);
+        self::assertSame($expected, $actual->getDefault('_controller'));
     }
 
-    /**
-     * @test
-     */
-    public function routeCollectionWillIncludeSeparateRoutesForSubPathMethodCombinations()
+    public function testRouteCollectionWillIncludeSeparateRoutesForSubPathMethodCombinations()
     {
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([
                 new Path(
@@ -365,13 +325,10 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $this->assertCount(4, $routes);
+        self::assertCount(4, $routes);
     }
 
-    /**
-     * @test
-     */
-    public function routeCollectionWillContainPathFromDescription()
+    public function testRouteCollectionWillContainPathFromDescription()
     {
         $paths = [
             new Path('/a', [new Operation('/a:get', '/a', 'get'),]),
@@ -383,8 +340,8 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             new Path('/z', [new Operation('/z:get', '/z', 'get'),]),
         ];
 
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn($paths);
 
@@ -406,13 +363,10 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
         );
 
         sort($routePaths);
-        $this->assertSame($descriptionPaths, $routePaths);
+        self::assertSame($descriptionPaths, $routePaths);
     }
 
-    /**
-     * @test
-     */
-    public function willAddRequirementsForIntegerPathParams()
+    public function testWillAddRequirementsForIntegerPathParams()
     {
         $parameter = new Parameter(
             'foo',
@@ -421,24 +375,21 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             Parameter::IN_PATH
         );
 
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([new Path('/a', [new Operation('/a:get', '/a', 'get', [$parameter])])]);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
         $actual = $routes->get('customname.path.a.get');
-        $this->assertNotNull($actual);
+        self::assertNotNull($actual);
         $requirements = $actual->getRequirements();
-        $this->assertNotNull($requirements);
+        self::assertNotNull($requirements);
 
-        $this->assertSame($requirements['foo'], '\d+');
+        self::assertSame($requirements['foo'], '\d+');
     }
 
-    /**
-     * @test
-     */
-    public function willAddRequirementsForStringPatternParams()
+    public function testWillAddRequirementsForStringPatternParams()
     {
         $expected  = '\d{2}hello';
         $parameter = new Parameter(
@@ -453,24 +404,21 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             Parameter::IN_PATH
         );
 
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([new Path('/a', [new Operation('/a:get', '/a', 'get', [$parameter])])]);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
         $actual = $routes->get('customname.path.a.get');
-        $this->assertNotNull($actual);
+        self::assertNotNull($actual);
         $requirements = $actual->getRequirements();
-        $this->assertNotNull($requirements);
+        self::assertNotNull($requirements);
 
         $this->assertSame($expected, $requirements['aString']);
     }
 
-    /**
-     * @test
-     */
-    public function willAddRequirementsForStringEnumParams()
+    public function testWillAddRequirementsForStringEnumParams()
     {
         $enum      = ['a', 'b', 'c'];
         $expected  = '(a|b|c)';
@@ -486,17 +434,17 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             Parameter::IN_PATH
         );
 
-        $this->decriptionMock
-            ->expects($this->any())
+        $this->descriptionMock
+            ->expects(self::any())
             ->method('getPaths')
             ->willReturn([new Path('/a', [new Operation('/a:get', '/a', 'get', [$parameter])])]);
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
         $actual = $routes->get('customname.path.a.get');
-        $this->assertNotNull($actual);
+        self::assertNotNull($actual);
         $requirements = $actual->getRequirements();
-        $this->assertNotNull($requirements);
+        self::assertNotNull($requirements);
 
-        $this->assertSame($expected, $requirements['aString']);
+        self::assertSame($expected, $requirements['aString']);
     }
 }
