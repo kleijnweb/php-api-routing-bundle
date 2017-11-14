@@ -13,56 +13,49 @@ use KleijnWeb\PhpApi\Descriptions\Description\Operation;
 use KleijnWeb\PhpApi\Descriptions\Description\Path;
 use KleijnWeb\PhpApi\Descriptions\Description\Repository;
 use KleijnWeb\PhpApi\RoutingBundle\Routing\RequestMeta;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author John Kleijn <john@kleijnweb.nl>
  */
-class RequestMetaTest extends \PHPUnit_Framework_TestCase
+class RequestMetaTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function createFromRequestWillReturnNullWhenUriAttributeNotSet()
+    public function testCreateFromRequestWillReturnNullWhenUriAttributeNotSet()
     {
         $request = new Request();
         $meta    = RequestMeta::fromRequest($request, new Repository());
-        $this->assertNull($meta);
+        self::assertNull($meta);
     }
 
-    /**
-     * @test
-     */
-    public function canCreateFromRequest()
+    public function testCanCreateFromRequest()
     {
         $request = $this->createRequest('/foo.yml', '/foo');
         $meta    = RequestMeta::fromRequest($request, $this->stubRepository());
-        $this->assertInstanceOf(RequestMeta::class, $meta);
+        self::assertInstanceOf(RequestMeta::class, $meta);
 
         return $meta;
     }
 
-    /**
-     * @test
-     */
-    public function willReuseInstance()
+    public function testWillReuseInstance()
     {
         $repository = $this->stubRepository();
 
         $request = $this->createRequest('/foo.yml', '/foo');
         $meta    = RequestMeta::fromRequest($request, $repository);
 
-        $this->assertSame($meta, RequestMeta::fromRequest($request, $repository));
+        self::assertSame($meta, RequestMeta::fromRequest($request, $repository));
     }
 
     /**
-     * @test
+     * @depends testCanCreateFromRequest
+     *
+     * @param RequestMeta $meta
      */
-    public function canUseGetters()
+    public function testCanUseGetters(RequestMeta $meta)
     {
-        $meta = $this->canCreateFromRequest();
-        $this->assertTrue(is_subclass_of($meta->getDescription(), Description::class));
-        $this->assertTrue(is_subclass_of($meta->getOperation(), Operation::class));
+        self::assertTrue(is_subclass_of($meta->getDescription(), Description::class));
+        self::assertTrue(is_subclass_of($meta->getOperation(), Operation::class));
     }
 
     /**
@@ -85,9 +78,9 @@ class RequestMetaTest extends \PHPUnit_Framework_TestCase
         $path        = $this->getMockBuilder(Path::class)->disableOriginalConstructor()->getMock();
         $operation   = $this->getMockBuilder(Operation::class)->disableOriginalConstructor()->getMock();
 
-        $repository->expects($this->once())->method('get')->willReturn($description);
-        $description->expects($this->once())->method('getPath')->willReturn($path);
-        $path->expects($this->once())->method('getOperation')->willReturn($operation);
+        $repository->expects(self::once())->method('get')->willReturn($description);
+        $description->expects(self::once())->method('getPath')->willReturn($path);
+        $path->expects(self::once())->method('getOperation')->willReturn($operation);
 
         return $repository;
     }

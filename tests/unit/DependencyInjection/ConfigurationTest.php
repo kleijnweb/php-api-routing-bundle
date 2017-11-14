@@ -11,18 +11,15 @@
 
 namespace FOS\HttpCacheBundle\Tests\Unit\DependencyInjection;
 
-
 use KleijnWeb\PhpApi\RoutingBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function willReturnTreeBuilder()
+    public function testWillReturnTreeBuilder()
     {
         $extension =  new Configuration();
-        $this->assertInstanceOf(TreeBuilder::class, $extension->getConfigTreeBuilder());
+        self::assertInstanceOf(TreeBuilder::class, $extension->getConfigTreeBuilder());
     }
 }

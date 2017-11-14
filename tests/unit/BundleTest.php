@@ -10,24 +10,19 @@ namespace KleijnWeb\PhpApi\RoutingBundle\Tests\DependencyInjection;
 
 use KleijnWeb\PhpApi\RoutingBundle\DependencyInjection\PhpApiRoutingExtension;
 use KleijnWeb\PhpApi\RoutingBundle\PhpApiRoutingBundle;
+use PHPUnit\Framework\TestCase;
 
-class BundleTest extends \PHPUnit_Framework_TestCase
+class BundleTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function canGetExtension()
+    public function testCanGetExtension()
     {
         $routingBundle = new PhpApiRoutingBundle();
-        $this->assertInstanceOf(PhpApiRoutingExtension::class, $routingBundle->getContainerExtension());
+        self::assertInstanceOf(PhpApiRoutingExtension::class, $routingBundle->getContainerExtension());
     }
 
-    /**
-     * @test
-     */
-    public function canGetNamespace()
+    public function testCanGetNamespace()
     {
         $routingBundle = new PhpApiRoutingBundle();
-        $this->assertSame('KleijnWeb\PhpApi\RoutingBundle', $routingBundle->getNamespace());
+        self::assertSame('KleijnWeb\PhpApi\RoutingBundle', $routingBundle->getNamespace());
     }
 }
