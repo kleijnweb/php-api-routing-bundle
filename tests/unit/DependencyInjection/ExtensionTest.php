@@ -10,8 +10,9 @@ namespace KleijnWeb\PhpApi\RoutingBundle\Tests\DependencyInjection;
 
 use KleijnWeb\PhpApi\RoutingBundle\DependencyInjection\PhpApiRoutingExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPUnit\Framework\TestCase;
 
-class ExtensionTest extends \PHPUnit_Framework_TestCase
+class ExtensionTest extends TestCase
 {
     /**
      * @var PhpApiRoutingExtension

@@ -14,11 +14,13 @@ use KleijnWeb\PhpApi\Descriptions\Description\Path;
 use KleijnWeb\PhpApi\Descriptions\Description\Repository;
 use KleijnWeb\PhpApi\RoutingBundle\Routing\RequestMeta;
 use Symfony\Component\HttpFoundation\Request;
+use PHPUnit\Framework\TestCase;
+
 
 /**
  * @author John Kleijn <john@kleijnweb.nl>
  */
-class RequestMetaTest extends \PHPUnit_Framework_TestCase
+class RequestMetaTest extends TestCase
 {
     /**
      * @test

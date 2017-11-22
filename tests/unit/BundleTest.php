@@ -10,8 +10,9 @@ namespace KleijnWeb\PhpApi\RoutingBundle\Tests\DependencyInjection;
 
 use KleijnWeb\PhpApi\RoutingBundle\DependencyInjection\PhpApiRoutingExtension;
 use KleijnWeb\PhpApi\RoutingBundle\PhpApiRoutingBundle;
+use PHPUnit\Framework\TestCase;
 
-class BundleTest extends \PHPUnit_Framework_TestCase
+class BundleTest extends TestCase
 {
     /**
      * @test

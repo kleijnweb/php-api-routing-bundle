@@ -17,11 +17,12 @@ use KleijnWeb\PhpApi\Descriptions\Description\Schema\ScalarSchema;
 use KleijnWeb\PhpApi\Descriptions\Description\Schema\Schema;
 use KleijnWeb\PhpApi\RoutingBundle\Routing\OpenApiRouteLoader;
 use Symfony\Component\Routing\Route;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author John Kleijn <john@kleijnweb.nl>
  */
-class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
+class OpenApiRouteLoaderTest extends TestCase
 {
     const DOCUMENT_PATH = '/totally/non-existent/path';
 
@@ -71,20 +72,6 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->loader->supports('/a/b/c'));
         $this->assertTrue($this->loader->supports('/a/b/c', 'customname'));
-    }
-
-    /**
-     * @test
-     */
-    public function canLoadMultipleDocuments()
-    {
-        $this->decriptionMock
-            ->expects($this->any())
-            ->method('getPaths')
-            ->willReturn([]);
-
-        $this->loader->load(self::DOCUMENT_PATH);
-        $this->loader->load(self::DOCUMENT_PATH . '2');
     }
 
     /**
