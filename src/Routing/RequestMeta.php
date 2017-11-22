@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 /*
  * This file is part of the KleijnWeb\PhpApi\RoutingBundle package.
  *
@@ -75,7 +75,7 @@ class RequestMeta
             return null;
         }
 
-        $operation   = ($description = $repository->get($request->attributes->get(RequestMeta::ATTRIBUTE_URI)))
+        $operation = ($description = $repository->get($request->attributes->get(RequestMeta::ATTRIBUTE_URI)))
             ->getPath($request->attributes->get(RequestMeta::ATTRIBUTE_PATH))
             ->getOperation($request->getMethod());
 

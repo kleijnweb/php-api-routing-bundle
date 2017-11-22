@@ -22,7 +22,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function willReturnTreeBuilder()
     {
-        $extension =  new Configuration();
+        $extension = new Configuration();
         $this->assertInstanceOf(TreeBuilder::class, $extension->getConfigTreeBuilder());
     }
 }

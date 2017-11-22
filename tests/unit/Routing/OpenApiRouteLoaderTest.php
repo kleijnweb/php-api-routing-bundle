@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 /*
  * This file is part of the KleijnWeb\PhpApi\RoutingBundle package.
  *
@@ -84,7 +84,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             ->willReturn([]);
 
         $this->loader->load(self::DOCUMENT_PATH);
-        $this->loader->load(self::DOCUMENT_PATH.'2');
+        $this->loader->load(self::DOCUMENT_PATH . '2');
     }
 
     /**
@@ -102,7 +102,7 @@ class OpenApiRouteLoaderTest extends \PHPUnit_Framework_TestCase
             );
 
         $routes1 = $this->loader->load(self::DOCUMENT_PATH);
-        $routes2 = $this->loader->load(self::DOCUMENT_PATH.'2');
+        $routes2 = $this->loader->load(self::DOCUMENT_PATH . '2');
         $this->assertSame(count($routes1), count(array_diff_key($routes1->all(), $routes2->all())));
     }
 

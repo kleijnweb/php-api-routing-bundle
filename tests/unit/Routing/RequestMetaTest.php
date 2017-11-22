@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 /*
  * This file is part of the KleijnWeb\PhpApi\RoutingBundle package.
  *
@@ -88,7 +88,7 @@ class RequestMetaTest extends \PHPUnit_Framework_TestCase
         $repository->expects($this->once())->method('get')->willReturn($description);
         $description->expects($this->once())->method('getPath')->willReturn($path);
         $path->expects($this->once())->method('getOperation')->willReturn($operation);
-
+        /** @var Repository $repository */
         return $repository;
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 /*
  * This file is part of the KleijnWeb\PhpApi\RoutingBundle package.
  *
@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $rootNode    = ($builder = new TreeBuilder())->root('api_routing');
+        $rootNode = ($builder = new TreeBuilder())->root('api_routing');
         $rootNode
             ->children()
             ->scalarNode('name')->defaultValue('php-api')
