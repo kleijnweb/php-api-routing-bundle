@@ -12,7 +12,7 @@ use KleijnWeb\PhpApi\Descriptions\Description\Operation;
 use KleijnWeb\PhpApi\Descriptions\Description\Parameter;
 use KleijnWeb\PhpApi\Descriptions\Description\Repository;
 use KleijnWeb\PhpApi\Descriptions\Description\Schema\ScalarSchema;
-use KleijnWeb\PhpApi\Middleware\Util\ParameterTypePatternResolver;
+use KleijnWeb\PhpApi\Descriptions\Util\ParameterTypePatternResolver;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
