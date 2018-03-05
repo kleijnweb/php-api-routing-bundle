@@ -8,6 +8,7 @@
 
 namespace KleijnWeb\PhpApi\RoutingBundle\Tests\Routing;
 
+use An\Inokable\Controller;
 use KleijnWeb\PhpApi\Descriptions\Description\Description;
 use KleijnWeb\PhpApi\Descriptions\Description\Operation;
 use KleijnWeb\PhpApi\Descriptions\Description\Parameter;
@@ -214,6 +215,31 @@ class OpenApiRouteLoaderTest extends TestCase
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
         $actual = $routes->get('customname.path.a.methodName');
+        $this->assertNotNull($actual);
+        $this->assertSame($expected, $actual->getDefault('_controller'));
+    }
+
+    /**
+     * @test
+     */
+    public function canUseOperationIdAsInvokableControllerKey()
+    {
+        $expected = Controller::class;
+
+        $this->decriptionMock
+            ->expects($this->any())
+            ->method('getPaths')
+            ->willReturn([
+                new Path(
+                    '/a',
+                    [new Operation('/a:get', '/a', 'get'), new Operation($expected, '/a', 'post'),]
+                ),
+                new Path('/b', [new Operation('/b:get', '/b', 'get')]),
+            ]);
+
+        $routes = $this->loader->load(self::DOCUMENT_PATH);
+
+        $actual = $routes->get('customname.path.a.invokable');
         $this->assertNotNull($actual);
         $this->assertSame($expected, $actual->getDefault('_controller'));
     }
@@ -485,5 +511,16 @@ class OpenApiRouteLoaderTest extends TestCase
         $this->assertNotNull($requirements);
 
         $this->assertSame($expected, $requirements['aString']);
+    }
+}
+
+namespace An\Inokable;
+
+use Symfony\Component\HttpFoundation\Response;
+
+class Controller {
+    public function __invoke(): Response
+    {
+        return new Response();
     }
 }
