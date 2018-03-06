@@ -18,5 +18,5 @@ matrix:
     - php: 7.1
       script:
         - bin/phpunit
-        - bin/phpcs
+        - bin/phpcs --standard=PSR2 src tests
   fast_finish: true

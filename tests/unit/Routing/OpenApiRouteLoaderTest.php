@@ -8,7 +8,7 @@
 
 namespace KleijnWeb\PhpApi\RoutingBundle\Tests\Routing;
 
-use An\Inokable\Controller;
+use KleijnWeb\PhpApi\RoutingBundle\Tests\Routing\Stubs\InvokableController;
 use KleijnWeb\PhpApi\Descriptions\Description\Description;
 use KleijnWeb\PhpApi\Descriptions\Description\Operation;
 use KleijnWeb\PhpApi\Descriptions\Description\Parameter;
@@ -224,7 +224,7 @@ class OpenApiRouteLoaderTest extends TestCase
      */
     public function canUseOperationIdAsInvokableControllerKey()
     {
-        $expected = Controller::class;
+        $expected = InvokableController::class;
 
         $this->decriptionMock
             ->expects($this->any())
@@ -511,17 +511,5 @@ class OpenApiRouteLoaderTest extends TestCase
         $this->assertNotNull($requirements);
 
         $this->assertSame($expected, $requirements['aString']);
-    }
-}
-
-namespace An\Inokable;
-
-use Symfony\Component\HttpFoundation\Response;
-
-class Controller
-{
-    public function __invoke(): Response
-    {
-        return new Response();
     }
 }
