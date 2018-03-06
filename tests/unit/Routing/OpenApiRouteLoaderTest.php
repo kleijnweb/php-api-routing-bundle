@@ -518,7 +518,8 @@ namespace An\Inokable;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class Controller {
+class Controller
+{
     public function __invoke(): Response
     {
         return new Response();
