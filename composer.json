@@ -12,8 +12,12 @@
   "description": "Symfony routing using php-api-descriptions",
   "autoload": {
     "psr-4": {
-      "KleijnWeb\\PhpApi\\RoutingBundle\\Tests\\": "tests",
       "KleijnWeb\\PhpApi\\RoutingBundle\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "KleijnWeb\\PhpApi\\RoutingBundle\\Tests\\": "tests/unit"
     }
   },
   "keywords": [

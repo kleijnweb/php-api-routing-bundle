@@ -169,6 +169,9 @@ class OpenApiRouteLoader extends Loader
             if (false !== strpos($operation->getId(), ':')) {
                 return $operation->getId();
             }
+            if (method_exists($operation->getId(), '__invoke')) {
+                return $operation->getId();
+            }
             $operationName = $operation->getId();
         }
 
@@ -195,7 +198,13 @@ class OpenApiRouteLoader extends Loader
      */
     private function createRouteId(string $resource, string $path, string $controllerKey): string
     {
-        list(, $operationName) = explode(':', $controllerKey);
+        $controllerSegments = explode(':', $controllerKey);
+
+        $operationName = 'action';
+        if (count($controllerSegments) === 2) {
+            list(, $operationName) = $controllerSegments;
+        }
+
         $fileName       = pathinfo($resource, PATHINFO_FILENAME);
         $normalizedPath = strtolower(trim(preg_replace('/\W+/', '.', $path), '.'));
         $routeName      = "$this->typeName.{$fileName}.$normalizedPath.$operationName";
