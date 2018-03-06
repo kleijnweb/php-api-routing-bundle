@@ -16,7 +16,6 @@ use KleijnWeb\PhpApi\RoutingBundle\Routing\RequestMeta;
 use Symfony\Component\HttpFoundation\Request;
 use PHPUnit\Framework\TestCase;
 
-
 /**
  * @author John Kleijn <john@kleijnweb.nl>
  */

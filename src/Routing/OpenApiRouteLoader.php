@@ -159,8 +159,7 @@ class OpenApiRouteLoader extends Loader
         string $resourceName,
         string $router,
         string $routerController = null
-    ): string
-    {
+    ): string {
 
         $operationName = $operation->getMethod();
         $diKey         = "$router.$resourceName";

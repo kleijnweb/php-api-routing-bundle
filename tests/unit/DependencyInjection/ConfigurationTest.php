@@ -11,7 +11,6 @@
 
 namespace FOS\HttpCacheBundle\Tests\Unit\DependencyInjection;
 
-
 use KleijnWeb\PhpApi\RoutingBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use PHPUnit\Framework\TestCase;
