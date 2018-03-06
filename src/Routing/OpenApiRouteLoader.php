@@ -200,7 +200,7 @@ class OpenApiRouteLoader extends Loader
     {
         $controllerSegments = explode(':', $controllerKey);
 
-        $operationName = 'invokable';
+        $operationName = 'action';
         if (count($controllerSegments) === 2) {
             list(, $operationName) = $controllerSegments;
         }

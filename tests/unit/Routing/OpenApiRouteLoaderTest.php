@@ -239,7 +239,7 @@ class OpenApiRouteLoaderTest extends TestCase
 
         $routes = $this->loader->load(self::DOCUMENT_PATH);
 
-        $actual = $routes->get('customname.path.a.invokable');
+        $actual = $routes->get('customname.path.a.action');
         $this->assertNotNull($actual);
         $this->assertSame($expected, $actual->getDefault('_controller'));
     }
