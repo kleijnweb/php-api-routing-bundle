@@ -199,9 +199,12 @@ class OpenApiRouteLoader extends Loader
     {
         $controllerSegments = explode(':', $controllerKey);
 
-        $operationName = 'action';
         if (count($controllerSegments) === 2) {
             list(, $operationName) = $controllerSegments;
+        } else {
+            $className = basename(str_replace('\\', '/', $controllerKey));
+            // Convert class name to snake_case
+            $operationName = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $className));
         }
 
         $fileName       = pathinfo($resource, PATHINFO_FILENAME);
