@@ -1,3 +1,5 @@
+# This project is no longer maintained
+
 # KleijnWeb\PhpApi\RoutingBundle 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1da0d81a-78c5-4be7-8228-72963c0f6d24/small.png)](https://insight.sensiolabs.com/projects/1da0d81a-78c5-4be7-8228-72963c0f6d24)
 
